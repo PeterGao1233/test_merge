@@ -3,16 +3,16 @@
     "path": "C:/Users/gza23/OneDrive/桌面/test_merge/README.md",
     "project_path": "README.md",
     "type": "markdown",
-    "hash": "0",
+    "hash": "4117403863",
     "contents": "",
-    "dirty": false,
+    "dirty": true,
     "created": 1714676056548.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "4,12",
+        "cursorPosition": "5,0",
         "scrollLine": "0"
     },
     "folds": "",
@@ -20,7 +20,7 @@
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1714676364,
+    "last_content_update": 1714676619879,
     "read_only": false,
     "read_only_alternatives": []
 }

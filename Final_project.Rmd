@@ -1,0 +1,207 @@
+---
+title: "Final project"
+runtime: shiny
+output:
+  flexdashboard::flex_dashboard:
+    theme: cosmo
+    vertical_layout: scroll
+---
+```{r}
+library(tidyverse)
+library(stringr)
+library(httr)
+library(rvest)
+library(lubridate)
+library(ggmap)
+library(shiny)
+library(shinythemes)
+library(usdata)
+library(maps)
+library(grDevices)
+library(flexdashboard)
+library(ggmosaic)
+library(RColorBrewer)
+```
+
+Read our data here!
+```{r}
+
+```
+<style>                     
+.navbar {
+  background-color: black;
+  border-color: white;
+  menu-color:white
+}
+
+</style>  
+
+About {data-navmenu="Menu"}
+==========================
+
+Column {data-width = 400}
+-------------------------
+
+#### Authors
+
+Lance Nemecek and Peter Gao
+
+#### Background Information
+
+
+
+
+
+
+Which schools are the best at each event? {data-navmenu="Menu"}
+======================================================
+
+
+
+
+Column {data.height = 700}
+-----------------------------------
+
+###Figure 1
+
+
+### Figure 2
+
+
+Column
+-----------------
+### Select Input
+
+### Comment
+```{r}
+p(".")
+```
+
+### Figure 3
+```{r}
+
+```
+
+
+Has the MIAC improved as the years progressed? {data-navmenu="Menu"}
+====================================
+
+Inputs {.sidebar}
+------------------------------------------
+```{r}
+
+```
+
+```{r}
+p("")
+```
+
+
+Column 
+------------------------------------
+### Figure 1
+```{r, fig.height=4, fig.width=4}
+
+```
+
+### Figure 2
+
+```{r}
+
+```
+
+
+How does each class year perform in college? {data-navmenu="Menu"}
+====================================
+
+Column
+---------------------------------------
+
+```{r}
+
+```
+
+### section 1
+```{r, fig.height = 3}
+
+```
+
+### section 2
+```{r, fig.height=4}
+
+```
+
+Column
+------------------------
+
+
+
+
+
+### section 2
+
+```{r, fig.height = 3}
+
+```
+### Commentary
+
+```{r}
+p("." )
+```
+
+
+Does athletes with the top marks finish as expected? {data-navmenu="Menu"}
+========================================
+
+Column
+------------------------------------------
+```{r}
+
+```
+
+
+
+### section1
+```{r}
+
+```
+
+### section2
+```{r}
+
+```
+
+Column
+-------------------------------------
+
+### Commentary
+```{r}
+p("")
+```
+
+
+### section 3
+```{r}
+
+```
+
+
+### section4
+```{r}
+
+```
+
+
+
+
+potential question ? {data-navmenu="Menu"}
+===============================
+
+Column
+------------------------------------------
+
+
+Discussion {data-navmenu="Menu"}
+=================================
+
+  

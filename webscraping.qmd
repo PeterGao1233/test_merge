@@ -1,0 +1,10 @@
+---
+title: "Web scraping data"
+author: "Lance Nemecek and Peter Gao"
+format:
+ html: default
+editor_options: 
+  chunk_output_type: console
+---
+  
+we can webscraping our data here

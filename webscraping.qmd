@@ -46,10 +46,8 @@ urls <- c(
 track_data_tibbles <- read_track_tibbles(urls)
 
 
-# Combine all elements of the list into a single table
 combined_table <- bind_rows(track_data_tibbles)
 
-# Now, combined_table is a single table containing all data from the list
 print(combined_table)
 ```
 

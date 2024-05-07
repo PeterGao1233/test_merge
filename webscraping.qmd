@@ -92,5 +92,14 @@ combined_table100 <- combined_table100 |>
 
 ```
 
+```{r}
+combined_table100 |>
+  select(name, school) |>
+  ggplot(aes(x = school)) +
+  geom_bar()
+```
+
+
+
 
 

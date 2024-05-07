@@ -24,11 +24,6 @@ library(ggmosaic)
 library(RColorBrewer)
 ```
 
-Read our data here!
-
-```{r}
-
-```
 
 ```{=html}
 <style>                     
@@ -67,31 +62,46 @@ These 5 variables will provide the necessary information we need for our analysi
 + Data from [TFRRS](https://www.tfrrs.org/) 
 + Data we will use in our final project from (https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List)
 
+#### Investigate Questions
 
++ Which schools are the best at each event?
++ Has the MIAC improved as the years progressed? 
++ How does each class year perform in college?
++ Does athletes with the top marks finish as expected?
 
 # Which schools are the best at each event? {data-navmenu="Menu"}
-box plot
+
 ## Column {data.height = 700}
 
-###Figure 1
+Which schools are the best at each event?
 
-### Figure 2
 
-## Column
+In this question, we will consider the number of athletes from each school in the top 30 in the 100-meter event to determine which school is stronger. That is, if a school has the most athletes in the top thirty, then that school is best at the event.
+
+
 
 ### Select Input
-
-### Comment
-
-```{r}
-p(".")
-```
-
-### Figure 3
-
-```{r}
+```{r, fig.height=6}
+inputPanel(selectInput("event", label = "Select Event",
+                       choices = c("100","200", "400", "800", "1500","5000", "10000", "100 Hurdles","400 Hurdles", "3000 SteepLechase", "4*100 Relay","4*400 Relay","High Jump","Pole Vault", "Long Jump", "Triple Jump","shot Put", "Discus", "Hammer", "Javelin", "Heptathlon"), selected = "All"))
+          
+inputPanel(selectInput("bars", label = "Select Years",
+                       choices = c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024), selected = 5))
 
 ```
+
+
+Column 
+-------------------------
+
+
+Note that 4*100 and 4*400 should be considered separately.
+Column 
+-------------------------
+
+
+
+
 
 # Has the MIAC improved as the years progressed? {data-navmenu="Menu"}
 

@@ -20,7 +20,7 @@ Beast Function Alert!!!
 For 100 Meter Runs right now.
 
 ```{r}
-read_track_tibbles <- function(urls) {
+read_track_tibbles100 <- function(urls) {
     html_list <- list() 
     
     for (url in urls) {
@@ -43,16 +43,54 @@ urls <- c(
     "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
     "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
 
-track_data_tibbles <- read_track_tibbles(urls)
+track_data_tibbles100 <- read_track_tibbles100(urls)
 
+combined_table100 <- bind_rows(track_data_tibbles100)
 
-combined_table <- bind_rows(track_data_tibbles)
-
-print(combined_table)
+print(combined_table100)
 ```
 
 
- "https://tf.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List?gender=m",
-    "https://tf.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List?gender=m",
-    "https://tf.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List?gender=m",
-    "https://tf.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List?gender=m",
+200 Meters
+
+```{r}
+read_track_tibbles200 <- function(urls) {
+    html_list <- list() 
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        Two_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[3]]
+        colnames(Two_hundred_meters) <- paste0("Column_", 1:ncol(Two_hundred_meters)) 
+        html_list[[url]] <- as_tibble(Two_hundred_meters)
+    }
+    return(html_list)
+}
+
+# Running the Code
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
+
+track_data_tibbles200 <- read_track_tibbles200(urls)
+
+
+combined_table200 <- bind_rows(track_data_tibbles200)
+
+print(combined_table200)
+```
+
+
+```{r}
+combined_table100 <- combined_table100 |>
+  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
+
+```
+
+
+

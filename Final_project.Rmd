@@ -6,6 +6,7 @@ output:
     theme: cosmo
     vertical_layout: scroll
 ---
+
 ```{r}
 library(tidyverse)
 library(stringr)
@@ -24,9 +25,12 @@ library(RColorBrewer)
 ```
 
 Read our data here!
+
 ```{r}
 
 ```
+
+```{=html}
 <style>                     
 .navbar {
   background-color: black;
@@ -34,60 +38,65 @@ Read our data here!
   menu-color:white
 }
 
-</style>  
+</style>
+```
+# About {data-navmenu="Menu"}
 
-About {data-navmenu="Menu"}
-==========================
-
-Column {data-width = 400}
--------------------------
+## Column {data-width = 400}
 
 #### Authors
 
 Lance Nemecek and Peter Gao
 
 #### Background Information
+About the TRFFS website: The TRFFS is a website where people can see the college track & field rankings and results.
+
+We require the names of all MIAC athletes and their event times. The TFRRS website provides data back to 2015 so we can analyze data for the past 9 years of MIAC competition. We intend to use the shiny package to organize our findings in an easy to operate manner for a viewer of our website. Our key variables are the following: 
+
++ Athlete Name
++ Athlete School
++ Athlete time 
++ Distance
++ Date of Race
++ Finishing Position
+
+These 5 variables will provide the necessary information we need for our analysis. 
+
+
+#### Data Soures
++ Data from [TFRRS](https://www.tfrrs.org/) 
++ Data we will use in our final project from (https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List)
 
 
 
-
-
-
-Which schools are the best at each event? {data-navmenu="Menu"}
-======================================================
-
-
-
-
-Column {data.height = 700}
------------------------------------
+# Which schools are the best at each event? {data-navmenu="Menu"}
+box plot
+## Column {data.height = 700}
 
 ###Figure 1
 
-
 ### Figure 2
 
+## Column
 
-Column
------------------
 ### Select Input
 
 ### Comment
+
 ```{r}
 p(".")
 ```
 
 ### Figure 3
+
 ```{r}
 
 ```
 
+# Has the MIAC improved as the years progressed? {data-navmenu="Menu"}
 
-Has the MIAC improved as the years progressed? {data-navmenu="Menu"}
-====================================
+## Inputs {.sidebar}
 
-Inputs {.sidebar}
-------------------------------------------
 ```{r}
 
 ```
@@ -96,10 +105,10 @@ Inputs {.sidebar}
 p("")
 ```
 
+## Column
 
-Column 
-------------------------------------
 ### Figure 1
+
 ```{r, fig.height=4, fig.width=4}
 
 ```
@@ -110,98 +119,82 @@ Column
 
 ```
 
+# How does each class year perform in college? {data-navmenu="Menu"}
 
-How does each class year perform in college? {data-navmenu="Menu"}
-====================================
-
-Column
----------------------------------------
+## Column
 
 ```{r}
 
 ```
 
 ### section 1
+
 ```{r, fig.height = 3}
 
 ```
 
 ### section 2
+
 ```{r, fig.height=4}
 
 ```
 
-Column
-------------------------
-
-
-
-
+## Column
 
 ### section 2
 
 ```{r, fig.height = 3}
 
 ```
+
 ### Commentary
 
 ```{r}
 p("." )
 ```
 
+# Does athletes with the top marks finish as expected? {data-navmenu="Menu"}
 
-Does athletes with the top marks finish as expected? {data-navmenu="Menu"}
-========================================
+## Column
 
-Column
-------------------------------------------
 ```{r}
 
 ```
 
-
-
 ### section1
+
 ```{r}
 
 ```
 
 ### section2
+
 ```{r}
 
 ```
 
-Column
--------------------------------------
+## Column
 
 ### Commentary
+
 ```{r}
 p("")
 ```
 
-
 ### section 3
+
 ```{r}
 
 ```
-
 
 ### section4
+
 ```{r}
 
 ```
 
+# potential question ? {data-navmenu="Menu"}
 
+## Column
 
-
-potential question ? {data-navmenu="Menu"}
-===============================
-
-Column
-------------------------------------------
-
-
-Discussion {data-navmenu="Menu"}
-=================================
-
-  
+# Discussion {data-navmenu="Menu"}

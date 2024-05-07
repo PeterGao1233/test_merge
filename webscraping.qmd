@@ -7,4 +7,54 @@ editor_options:
   chunk_output_type: console
 ---
   
-we can webscraping our data here
+```{r}
+#| include: FALSE
+library(tidyverse)
+library(stringr)
+library(rvest)
+library(httr)
+```
+
+Beast Function Alert!!!
+
+For 100 Meter Runs right now.
+
+```{r}
+read_track_tibbles <- function(urls) {
+    html_list <- list() 
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        One_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[1]]
+        colnames(One_hundred_meters) <- paste0("Column_", 1:ncol(One_hundred_meters)) 
+        html_list[[url]] <- as_tibble(One_hundred_meters)
+    }
+    return(html_list)
+}
+
+# Running the Code
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
+
+track_data_tibbles <- read_track_tibbles(urls)
+
+
+# Combine all elements of the list into a single table
+combined_table <- bind_rows(track_data_tibbles)
+
+# Now, combined_table is a single table containing all data from the list
+print(combined_table)
+```
+
+
+ "https://tf.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List?gender=m",
+    "https://tf.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List?gender=m",
+    "https://tf.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List?gender=m",
+    "https://tf.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List?gender=m",

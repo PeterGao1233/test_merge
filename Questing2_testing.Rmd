@@ -3,72 +3,34 @@ title: "Questing 2 testing"
 runtime: shiny
 output: html_document
 ---
+# Has the MIAC improved as the years progressed? {data-navmenu="Menu"}
 
-```{r setup, include=FALSE, message=FALSE}
-library(tidyverse)
-ames <- read_csv("AmesHousing.csv")
-ames <- ames %>%
-  rename(LotShape = `Lot Shape`,
-         LandSlope = `Land Slope`,
-         HouseStyle = `House Style`,
-         PavedDrive = `Paved Drive`,
-         LotArea = `Lot Area`,
-         OverallQual = `Overall Qual`,
-         YearBuilt = `Year Built`,
-         SqFtAboveGrd = `Gr Liv Area`,
-         Bedrooms = `Bedroom AbvGr`)
+To determine how has the MIAC improved as the years progressed, we can measure how the champion for each event perform each year. That is, we are making a scatterplot with line, which x-axis is year from 2015 to 2024, and the y-axis is the time or meters due to different events.
+
+Column 
+-------------------------
+In the following plots, we are measuring the performance of champions in events that measure their results in seconds.
+
+### Select Input
+```{r, fig.height=3}
+inputPanel(selectInput("event", label = "Select Event",
+                       choices = c("100","200", "400", "800", "1500","5000", "10000", "100 Hurdles","400 Hurdles", "3000 SteepLechase", "4*100 Relay","4*400 Relay"), selected = "All"))
 ```
 
+### plot 1
 
-```{r, echo=FALSE}
-titlePanel("Cool Shiny App on Ames Housing Data")
 
-inputPanel(
-      selectInput(inputId = "categ",
-                  label = h3("Boxplot categories"),
-                  choices = c("Lot Shape" = "LotShape", 
-                              "Land Slope" = "LandSlope", 
-                              "House Style" = "HouseStyle", 
-                              "Foundation" = "Foundation", 
-                              "Paved Drive" = "PavedDrive"),
-                  selected = "Foundation"),
-      numericInput(inputId = "cutoff", 
-                   label = h3("Exclude prices above:"), 
-                   value = 500000)
-)
 
-renderPlot({
-    ames %>%
-      filter(SalePrice < input$cutoff) %>%
-      select(input$categ, "SalePrice") %>%
-    ggplot(aes(x = .data[[input$categ]], y = SalePrice)) +
-      geom_boxplot() +
-      coord_flip() 
-})
+
+Column 
+-------------------------
+Now, in the following plots, we are measuring the performance of champions in events that measure their results in meters.
+
+### Select Input
+```{r, fig.height=3}
+inputPanel(selectInput("event", label = "Select Event",
+                       choices = c("High Jump","Pole Vault", "Long Jump", "Triple Jump","shot Put", "Discus", "Hammer", "Javelin", "Heptathlon"), selected = "All"))
 ```
 
-```{r, echo=FALSE}
-inputPanel(
-      selectInput(inputId = "numer",
-                  label = h3("Numeric predictors"),
-                  choices = c("Lot Area" = "LotArea", 
-                              "Overall Quality" = "OverallQual", 
-                              "Year Built" = "YearBuilt", 
-                              "Above Ground Sqft" = "SqFtAboveGrd", 
-                              "Bedrooms" = "Bedrooms"),
-                  selected = "Above Ground Sqft"),
-      numericInput(inputId = "cutoff2", 
-                   label = h3("Exclude prices above:"), 
-                   value = 500000)
-)
-
-renderPlot({
-    ames %>%
-      filter(SalePrice < input$cutoff2) %>%
-      select(input$numer, "SalePrice") %>%
-    ggplot(aes(x = .data[[input$numer]], y = SalePrice)) +
-      geom_point() +
-      geom_smooth() 
-})
-```
+### plot 2
 

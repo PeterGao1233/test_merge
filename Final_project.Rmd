@@ -60,7 +60,7 @@ These 5 variables will provide the necessary information we need for our analysi
 
 #### Data Soures
 + Data from [TFRRS](https://www.tfrrs.org/) 
-+ Data we will use in our final project from (https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List)
++ Data we will use in our final project from https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List
 
 #### Investigate Questions
 
@@ -91,45 +91,60 @@ inputPanel(selectInput("bars", label = "Select Years",
 ```
 
 
+
+
+
 Column 
 -------------------------
+### Select Input
+```{r, fig.height=4}
+inputPanel(selectInput("event", label = "Select Event",
+                       choices = c("4*100 Relay","4*400 Relay"), selected = "All"))
+          
+inputPanel(selectInput("bars", label = "Select Years",
+                       choices = c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024), selected = 5))
 
-
-Note that 4*100 and 4*400 should be considered separately.
-Column 
--------------------------
-
+```
 
 
 
 
 # Has the MIAC improved as the years progressed? {data-navmenu="Menu"}
 
-## Inputs {.sidebar}
+To determine how has the MIAC improved as the years progressed, we can measure how the champion for each event perform each year. That is, we are making a scatterplot with line, which x-axis is year from 2015 to 2024, and the y-axis is the time or meters due to different events.
 
-```{r}
+Column 
+-------------------------
+In the following plots, we are measuring the performance of champions in events that measure their results in seconds.
 
+### Select Input
+```{r, fig.height=3}
+inputPanel(selectInput("event", label = "Select Event",
+                       choices = c("100","200", "400", "800", "1500","5000", "10000", "100 Hurdles","400 Hurdles", "3000 SteepLechase", "4*100 Relay","4*400 Relay"), selected = "All"))
 ```
 
-```{r}
-p("")
+### plot 1
+
+
+
+
+Column 
+-------------------------
+Now, in the following plots, we are measuring the performance of champions in events that measure their results in meters.
+
+### Select Input
+```{r, fig.height=3}
+inputPanel(selectInput("event", label = "Select Event",
+                       choices = c("High Jump","Pole Vault", "Long Jump", "Triple Jump","shot Put", "Discus", "Hammer", "Javelin", "Heptathlon"), selected = "All"))
 ```
 
-## Column
+### plot 2
 
-### Figure 1
-
-```{r, fig.height=4, fig.width=4}
-
-```
-
-### Figure 2
-
-```{r}
-
-```
 
 # How does each class year perform in college? {data-navmenu="Menu"}
+
+In this question, we will filter each class year, and 
+
 
 ## Column
 
@@ -203,7 +218,6 @@ p("")
 
 ```
 
-# potential question ? {data-navmenu="Menu"}
 
 ## Column
 

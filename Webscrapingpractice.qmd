@@ -8,7 +8,7 @@ editor_options:
 ---
 
 ```{r}
-all_running_events <- rbind(combined_table100, combined_table200, combined_table400, combined_table800, combined_table1500, combined_table5000, combined_table10000, combined_table110H)
+all_running_events <- rbind(combined_table100, combined_table200, combined_table400, combined_table800, combined_table1500, combined_table5000, combined_table10000, combined_table110H, combined_table400H)
 ```
 
 

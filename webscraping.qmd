@@ -48,12 +48,13 @@ track_data_tibbles100 <- read_track_tibbles100(urls)
 combined_table100 <- bind_rows(track_data_tibbles100)
 
 print(combined_table100)
+
+combined_table100$event <- "one_hundred"
 ```
 
 ```{r}
 combined_table100 <- combined_table100 |>
   rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
-
 ```
 
 200 Meters
@@ -88,6 +89,8 @@ track_data_tibbles200 <- read_track_tibbles200(urls)
 combined_table200 <- bind_rows(track_data_tibbles200)
 
 print(combined_table200)
+
+combined_table200$event <- "two_hundred"
 ```
 
 ```{r}
@@ -127,6 +130,9 @@ track_data_tibbles400 <- read_track_tibbles400(urls)
 combined_table400 <- bind_rows(track_data_tibbles400)
 
 print(combined_table400)
+
+combined_table400$wind <- "NA"
+combined_table400$event <- "four_hundred"
 ```
 
 ```{r}
@@ -166,6 +172,9 @@ track_data_tibbles800 <- read_track_tibbles800(urls)
 combined_table800 <- bind_rows(track_data_tibbles800)
 
 print(combined_table800)
+
+combined_table800$wind <- "NA"
+combined_table800$event <- "eight_hundred"
 ```
 
 ```{r}
@@ -215,7 +224,8 @@ combined_table1500 <- bind_rows(track_data_tibbles1500)
 
 print(combined_table1500)
 
-
+combined_table1500$wind <- "NA"
+combined_table1500$event <- "fifteen_hundred"
 ```
 
 ```{r}
@@ -255,6 +265,9 @@ track_data_tibbles5000 <- read_track_tibbles5000(urls)
 combined_table5000 <- bind_rows(track_data_tibbles5000)
 
 print(combined_table5000)
+
+combined_table5000$wind <- "NA"
+combined_table5000$event <- "five_k"
 ```
 
 ```{r}
@@ -294,6 +307,9 @@ track_data_tibbles10000 <- read_track_tibbles10000(urls)
 combined_table10000 <- bind_rows(track_data_tibbles10000)
 
 print(combined_table10000)
+
+combined_table10000$wind <- "NA"
+combined_table10000$event <- "ten_k"
 ```
 
 ```{r}
@@ -338,10 +354,11 @@ combined_table110H <- bind_rows(track_data_tibbles110H)
 
 # Optionally, rename columns if you know their meaning
 combined_table110H <- combined_table110H |> 
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
+  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
 
 print(combined_table110H)
 
+combined_table110H$event <- "110hurdle"
 ```
 
 
@@ -992,12 +1009,6 @@ combined_tableDecathlon <- combined_tableDecathlon |>
 print(combined_tableDecathlon)
 
 ```
-
-
-
-
-
-
 
 
 ```{r}

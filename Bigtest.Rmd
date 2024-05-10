@@ -330,24 +330,20 @@ all_running_events <- all_running_events %>%
 
 
 110 Hurdles
-```{r}
+```{r, include = FALSE}
 read_track_tibbles110H <- function(urls) {
-    html_list <- list()
+    html_list <- list() 
     
     for (url in urls) {
         TrackTables <- read_html(url)
-        Hurdles_110 <- html_table(TrackTables, header = TRUE, fill = TRUE)[[16]]
-        colnames(Hurdles_110) <- paste0("Column_", 1:ncol(Hurdles_110))
-        
-        # Convert all columns to character to prevent data type mismatch
-        Hurdles_110[] <- lapply(Hurdles_110, as.character)
-        
-        html_list[[url]] <- as_tibble(Hurdles_110)
+        one_ten_hurdles <- html_table(TrackTables, header = TRUE, fill = TRUE)[[16]]
+        colnames(one_ten_hurdles) <- paste0("Column_", 1:ncol(one_ten_hurdles)) 
+        html_list[[url]] <- as_tibble(one_ten_hurdles)
     }
     return(html_list)
 }
 
-# URLs to fetch data from
+# Running the Code
 urls <- c(
     "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
     "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
@@ -356,44 +352,36 @@ urls <- c(
     "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
     "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
     "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List"
-)
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
 
-# Read and combine data
 track_data_tibbles110H <- read_track_tibbles110H(urls)
+
 combined_table110H <- bind_rows(track_data_tibbles110H)
 
-# Optionally, rename columns if you know their meaning
+combined_table110H$event <- "one_ten_hurdles"
+
 combined_table110H <- combined_table110H |> 
   rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
 
 print(combined_table110H)
-
-combined_table110H$event <- "110hurdle"
 ```
 
 
 400 Hurdles
-```{r}
-# Function to read data from URLs and process tables specific to 400 hurdles
+```{r, include = FALSE}
 read_track_tibbles400H <- function(urls) {
-    html_list <- list()
+    html_list <- list() 
     
     for (url in urls) {
         TrackTables <- read_html(url)
-        # Assume the 400 Hurdles is at a different index, you need to check this
-        Hurdles_400 <- html_table(TrackTables, header = TRUE, fill = TRUE)[[17]]  # Update index as needed
-        colnames(Hurdles_400) <- paste0("Column_", 1:ncol(Hurdles_400))
-        
-        # Convert all columns to character to prevent data type mismatch
-        Hurdles_400[] <- lapply(Hurdles_400, as.character)
-        
-        html_list[[url]] <- as_tibble(Hurdles_400)
+        four_hundred_hurdles <- html_table(TrackTables, header = TRUE, fill = TRUE)[[17]]
+        colnames(four_hundred_hurdles) <- paste0("Column_", 1:ncol(four_hundred_hurdles)) 
+        html_list[[url]] <- as_tibble(four_hundred_hurdles)
     }
     return(html_list)
 }
 
-# List of URLs to fetch data from (update these URLs to the relevant pages for 400 hurdles)
+# Running the Code
 urls <- c(
     "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
     "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
@@ -402,46 +390,37 @@ urls <- c(
     "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
     "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
     "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List"
-)
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
 
-# Read and combine data
 track_data_tibbles400H <- read_track_tibbles400H(urls)
+
 combined_table400H <- bind_rows(track_data_tibbles400H)
 
-# Rename columns based on your understanding of the data
+combined_table400H$wind <- "NA"
+combined_table400H$event <- "four_hundred_hurdles"
+
 combined_table400H <- combined_table400H |> 
   rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
 
 print(combined_table400H)
-
-combined_table400H$wind <- "NA"
-combined_table400H$event <- "400hurdle"
-
-
 ```
 
+
 3000 SteepLechase
-```{r}
-# Function to read data from URLs and process tables specific to 3000 steeplechase
-read_track_tibbles3000SC <- function(urls) {
-    html_list <- list()
+```{r, include = FALSE}
+read_track_tibbles3000s <- function(urls) {
+    html_list <- list() 
     
     for (url in urls) {
         TrackTables <- read_html(url)
-        # You need to find the correct index for the 3000 Steeplechase table, this is just a placeholder
-        Steeplechase_3000 <- html_table(TrackTables, header = TRUE, fill = TRUE)[[19]]  # Update index as needed
-        colnames(Steeplechase_3000) <- paste0("Column_", 1:ncol(Steeplechase_3000))
-        
-        # Convert all columns to character to prevent data type mismatch
-        Steeplechase_3000[] <- lapply(Steeplechase_3000, as.character)
-        
-        html_list[[url]] <- as_tibble(Steeplechase_3000)
+        steeplechase <- html_table(TrackTables, header = TRUE, fill = TRUE)[[19]]
+        colnames(steeplechase) <- paste0("Column_", 1:ncol(steeplechase)) 
+        html_list[[url]] <- as_tibble(steeplechase)
     }
     return(html_list)
 }
 
-# List of URLs to fetch data from (update these URLs to the relevant pages for 3000 Steeplechase)
+# Running the Code
 urls <- c(
     "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
     "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
@@ -450,21 +429,19 @@ urls <- c(
     "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
     "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
     "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List"
-)
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
 
-# Read and combine data
-track_data_tibbles3000SC <- read_track_tibbles3000SC(urls)
-combined_table3000SC <- bind_rows(track_data_tibbles3000SC)
+track_data_tibbles3000s <- read_track_tibbles3000s(urls)
 
-# Rename columns based on your understanding of the data
-combined_table3000SC <- combined_table3000SC |> 
+combined_table3000s <- bind_rows(track_data_tibbles3000s)
+
+combined_table3000s$wind <- "NA"
+combined_table3000s$event <- "steeplechase"
+
+combined_table3000s <- combined_table3000s |> 
   rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
 
-print(combined_table3000SC)
-
-combined_table110H$wind <- "NA"
-combined_table110H$event <- "Steple"
+print(combined_table3000s)
 ```
 
 
@@ -472,7 +449,7 @@ combined_table110H$event <- "Steple"
 inputPanel(
   selectInput(inputId = "categ",
               label = h3("Event"),
-              choices = c("one_hundred", "two_hundred", "four_hundred", "eight_hundred", "fifteen_hundred", "five_k", "ten_k"),
+              choices = c("one_hundred", "two_hundred", "four_hundred", "eight_hundred", "fifteen_hundred", "five_k", "ten_k", "one_ten_hurdles", "four_hundred_hurdles", "steeplechase"),
               selected = "one_hundred"),
   
   selectInput(inputId = "categ1",
@@ -502,5 +479,6 @@ renderPlot({
     geom_bar()
 })
 ```
+
 
 

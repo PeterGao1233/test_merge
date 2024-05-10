@@ -71,8 +71,8 @@ Column
 
 ```{r, echo = FALSE}
 renderPlot({
-  testcombined_table100 %>%
-    filter(event == "one_hundred" & !is.na(.data[[input$categ]])) %>%
+  testcombined_table100 |>
+    filter(event == "one_hundred" & !is.na(.data[[input$categ]])) |>
     ggplot(aes(x = .data[[input$categ]])) +
     geom_bar()
 })

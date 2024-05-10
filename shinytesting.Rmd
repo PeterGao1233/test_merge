@@ -1,0 +1,80 @@
+---
+title: "Testing Shiny Code"
+author: "Lance Nemecek"
+date: "2024-05-09"
+output: html_document
+runtime: shiny
+---
+
+```{r global, include=FALSE, message=FALSE}
+library(tidyverse)
+library(tidyverse)
+library(stringr)
+library(rvest)
+library(httr)
+
+read_track_tibbles100 <- function(urls) {
+    html_list <- list() 
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        One_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[1]]
+        colnames(One_hundred_meters) <- paste0("Column_", 1:ncol(One_hundred_meters)) 
+        html_list[[url]] <- as_tibble(One_hundred_meters)
+    }
+    return(html_list)
+}
+
+# Running the Code
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
+
+track_data_tibbles100 <- read_track_tibbles100(urls)
+
+combined_table100 <- bind_rows(track_data_tibbles100)
+
+print(combined_table100)
+
+combined_table100$event <- "one_hundred"
+
+combined_table100 <- combined_table100 |>
+  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
+```
+
+
+```{r}
+inputPanel(
+  selectInput(inputId = "categ",
+              label = h3("Schools"),
+              choices = c("Hamline", "Carleton"),
+              selected = "Hamline")
+)
+```
+
+```{r}
+testcombined_table100 <- combined_table100 |>
+  pivot_wider(names_from = school,
+              values_from = name)
+view(testcombined_table100)
+```
+
+
+Column 
+-------------------------
+
+```{r, echo = FALSE}
+renderPlot({
+  testcombined_table100 |>
+    filter(event == "one_hundred" & !is.na(.data[[input$categ]])) |>
+    ggplot(aes(x = .data[[input$categ]])) +
+    geom_bar()
+})
+
+```

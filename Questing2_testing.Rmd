@@ -50,7 +50,7 @@ combined_table100 <- combined_table100 |>
   rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
 ```
 
-200 Meters
+200M
 
 ```{r, include = FALSE}
 read_track_tibbles200 <- function(urls) {

@@ -494,9 +494,14 @@ inputPanel(
 
 ```{r, echo=FALSE}
 renderPlot({
-summary_table |>
+all_running_events |>
+  group_by(school, class_year, date, event) %>%
+  summarise(average_time = mean(time, na.rm = TRUE)) %>%  
+  arrange(school, class_year, date) |>
+    mutate(date = mdy(date)) %>%
+    mutate(year_date = year(date))|>
     filter( !is.na(.data[[input$categ]])) |>
-    ggplot(aes(x = class_year)) +
+    ggplot(aes(x = class_year, y = average_time)) +
     geom_bar() +
     labs(x = "Class Year", y = "Average Times")
 })

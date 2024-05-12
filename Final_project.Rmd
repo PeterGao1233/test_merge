@@ -141,9 +141,9 @@ inputPanel(selectInput("event", label = "Select Event",
 ### plot 2
 
 
-# How does each class year perform in college? {data-navmenu="Menu"}
+# How does each class year perform in each college? {data-navmenu="Menu"}
 
-In this question, we will filter each class year, and 
+In this question, we will filter each class year, and see how they perform in different events in different years. To measure how they perform, we will examine the average seed rank for each events and in each college. 
 
 
 ## Column

@@ -451,6 +451,8 @@ all_running_events$time <- as.numeric(as.character(all_running_events$time))
 all_running_events %>%
   group_by(school, class_year, date, event) %>%
   summarise(average_time = mean(time, na.rm = TRUE)) %>%  
+  mutate(date = mdy(date)) %>%
+  mutate(year_date = year(date))|>
   arrange(school, class_year, date)  
 
 ```
@@ -491,7 +493,6 @@ inputPanel(
 
 ### The plot of the time of champions in 100,200, 400, 800, 1500,5000, 10000, 100 Hurdles,400 Hurdles, 3000 SteepLechase
 
-
 ```{r, echo=FALSE}
 renderPlot({
 all_running_events |>
@@ -506,7 +507,6 @@ all_running_events |>
     labs(x = "Class Year", y = "Average Times")
 })
 ```
-
 
 
 

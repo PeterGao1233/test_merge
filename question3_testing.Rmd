@@ -17,7 +17,7 @@ write_rds(all_running_events, "AllRunningEvents.csv")
 ```
 
 ```{r}
-all_running_events = read_csv("AllRunningEvents.csv")
+all_running_events = read_rds("AllRunningEvents.csv")
 ```
 
 ```{r}

@@ -143,21 +143,20 @@ Column
 -------------------------
 In the following plots, we are measuring the performance of champions in events that measure their results in seconds.
 
-### Select Input
-```{r, fig.height=4}
-inputPanel(
-  selectInput(inputId = "champs",
-              label = h3("Event"),
-              choices = c("one_hundred", "two_hundred", "four_hundred", "eight_hundred", "fifteen_hundred", "five_k", "ten_k", "one_ten_hurdles", "four_hundred_hurdles", "steeplechase"),
-              selected = "one_hundred")
-)
-```
-
-```{r, echo = FALSE}
+```{r, include = FALSE}
 testall_running_events <- all_running_events |>
   pivot_wider(names_from = event,
               values_from = school)
 view(testall_running_events)
+```
+
+
+```{r, fig.height=4}
+inputPanel(
+  selectInput(inputId = "champs",
+              label = h3("Running Events"),
+              choices = c("one_hundred", "two_hundred", "four_hundred", "eight_hundred", "fifteen_hundred", "five_k", "ten_k", "one_ten_hurdles", "four_hundred_hurdles", "steeplechase"),
+              selected = "one_hundred"))
 ```
 
 ```{r, echo=FALSE}
@@ -167,7 +166,8 @@ renderPlot({
     ggplot(aes(x = year_date, y = time)) +
     geom_point() +
     geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1)+
-    labs(x = "Year", y = "Times")
+    labs(x = "Year", y = "Times", title = "Progression of MIAC Running Events") +
+    theme_minimal()
 })
 ```
 
@@ -175,23 +175,21 @@ renderPlot({
 all_relays = read_rds("AllRelays")
 ```
 
-
 ```{r, echo = FALSE}
 all_relays <- all_relays %>%
     mutate(date = mdy(date)) %>%
     mutate(year_date = year(date))
 ```
-### Select Input
+
+
 ```{r, fig.height=3}
 inputPanel(
   selectInput(inputId = "relays",
-              label = h3("Event"),
+              label = h3("Relays"),
               choices = c("4x100", "4x400"),
               selected = "4x100"))
-
 ```
 
-### The plot of the time of champions in 4x100 and 4x400
 ```{r, echo = FALSE}
 all_relays <- all_relays |>
   pivot_wider(names_from = event,
@@ -199,19 +197,19 @@ all_relays <- all_relays |>
 view(all_relays)
 ```
 
+
+
 ```{r, echo=FALSE}
 renderPlot({
   all_relays |>
     filter(seed == 1, !is.na(.data[[input$relays]])) |>
     ggplot(aes(x = year_date, y = time)) +
     geom_point() +
-    labs(x = "Year", y = "Times")
+    labs(x = "Year", y = "Times", title = "Progression of MIAC Relays") +
+    theme_minimal()
 })
 ```
 
-
-### Select Input
-Now, in the following plots, we are measuring the performance of champions in events that measure their results in meters.
 ```{r, echo = FALSE}
 all_field_events = read_rds("AllFieldEvents.csv")
 ```
@@ -229,15 +227,14 @@ testall_field_events <- all_field_events |>
 view(testall_field_events)
 ```
 
+
 ```{r, fig.height=2}
 inputPanel(
   selectInput(inputId = "field",
-              label = h3("Event"),
+              label = h3("Field Events"),
              choices = c("High Jump","Pole Vault", "Long Jump", "Triple Jump","Shot Put", "Discus", "Hammer", "Javelin"),
               selected = "High Jump"))
 ```
-### The plot for field events
-
 
 ```{r, echo=FALSE}
 renderPlot({
@@ -245,11 +242,14 @@ renderPlot({
     filter(seed == 1, !is.na(.data[[input$field]])) |>
     ggplot(aes(x = year_date, y = mark)) +
     geom_point() +
-    labs(x = "Year", y = "Meters")
+    labs(x = "Year", y = "Meters", title = "Field Events") +
+    theme_minimal()
 })
 ```
 
-### The plot for Decathlon
+```{r}
+tags$h1("Decathlon")
+```
 
 ```{r}
 decathalon = read_rds("Decathalon")
@@ -266,7 +266,8 @@ decathalon |>
   filter(seed == 1)|>
   ggplot(aes(x = year_date, y = points)) +
   geom_point() +
-  labs(x = "Year", y = "points")
+  labs(x = "Year", y = "points", title = "MIAC Decathlon") +
+  theme_minimal()
 ```
 
 # How does each class year perform in each college? {data-navmenu="Menu"}

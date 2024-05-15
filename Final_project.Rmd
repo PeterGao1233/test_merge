@@ -144,25 +144,265 @@ Column
 In the following plots, we are measuring the performance of champions in events that measure their results in seconds.
 
 ### Select Input
-```{r, fig.height=3}
-inputPanel(selectInput("event", label = "Select Event",
-                       choices = c("100","200", "400", "800", "1500","5000", "10000", "100 Hurdles","400 Hurdles", "3000 SteepLechase", "4*100 Relay","4*400 Relay"), selected = "All"))
+```{r, fig.height=4}
+inputPanel(
+  selectInput(inputId = "categ",
+              label = h3("Event"),
+              choices = c("one_hundred", "two_hundred", "four_hundred", "eight_hundred", "fifteen_hundred", "five_k", "ten_k", "one_ten_hurdles", "four_hundred_hurdles", "steeplechase"),
+              selected = "one_hundred")
+)
 ```
 
-### plot 1
+### The plot of the time of champions in 100,200, 400, 800, 1500,5000, 10000, 100 Hurdles,400 Hurdles, 3000 SteepLechase
+```{r, echo = FALSE}
+testall_running_events <- all_running_events |>
+  pivot_wider(names_from = event,
+              values_from = school)
+view(testall_running_events)
+```
 
-Column 
--------------------------
-Now, in the following plots, we are measuring the performance of champions in events that measure their results in meters.
+```{r, echo=FALSE}
+renderPlot({
+  testall_running_events |>
+    filter(seed == 1, !is.na(.data[[input$categ]])) |>
+    ggplot(aes(x = year_date, y = time)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1)+
+    labs(x = "Year", y = "Times")
+})
+```
 
+
+```{r}
+# Function to read and process tables for the 4 x 100 relay from multiple URLs
+read_track_tibbles4x100 <- function(urls) {
+    html_list <- list()
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        # Find the correct table index for the 4 x 100 Relay; update as necessary
+        Relay_4x100 <- html_table(TrackTables, header = TRUE, fill = TRUE)[[21]]  # Adjust the index appropriately
+        colnames(Relay_4x100) <- paste0("Column_", 1:ncol(Relay_4x100))
+        
+        # Convert all columns to character to prevent data type mismatch
+        Relay_4x100[] <- lapply(Relay_4x100, as.character)
+        
+        html_list[[url]] <- as_tibble(Relay_4x100)
+    }
+    return(html_list)
+}
+
+# URLs for fetching data (ensure they point to the correct pages for 4 x 100 relay results)
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List"
+)
+
+# Read and combine data
+track_data_tibbles4x100 <- read_track_tibbles4x100(urls)
+combined_table4x100 <- bind_rows(track_data_tibbles4x100)
+
+# Rename columns based on your understanding of the data
+combined_table4x100 <- combined_table4x100 |> 
+  rename(seed = Column_1, team= Column_2, time = Column_3, athletes = Column_4, meet = Column_5, date = Column_6)
+
+print(combined_table4x100)
+combined_table4x100$wind <- "NA"
+combined_table4x100$event <- "4x100"
+
+```
+
+4 x 400 Relay
+```{r}
+library(rvest)
+library(dplyr)
+library(tibble)
+
+# Function to read and process tables for the 4 x 400 relay from multiple URLs
+read_track_tibbles4x400 <- function(urls) {
+    html_list <- list()
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        # Adjust the index based on the actual location of the 4 x 400 relay data
+        Relay_4x400 <- html_table(TrackTables, header = TRUE, fill = TRUE)[[23]]  # Update index as necessary
+        colnames(Relay_4x400) <- paste0("Column_", 1:ncol(Relay_4x400))
+        
+        # Convert all columns to character to prevent data type mismatch
+        Relay_4x400[] <- lapply(Relay_4x400, as.character)
+        
+        html_list[[url]] <- as_tibble(Relay_4x400)
+    }
+    return(html_list)
+}
+
+# List of URLs to fetch data from (make sure they are the correct ones for 4 x 400 relay)
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List"
+)
+
+# Read and combine data
+track_data_tibbles4x400 <- read_track_tibbles4x400(urls)
+combined_table4x400 <- bind_rows(track_data_tibbles4x400)
+
+# Optionally, rename columns based on your understanding of the data
+combined_table4x400 <- combined_table4x400 |> 
+  rename(seed = Column_1, team = Column_2, time = Column_3, athletes = Column_4, meet = Column_5, date = Column_6)
+
+print(combined_table4x400)
+combined_table4x400$wind <- "NA"
+combined_table4x400$event <- "4x400"
+```
+
+```{r, include = FALSE}
+all_running_events2 <- rbind(combined_table4x100, combined_table4x400)
+```
+
+```{r}
+all_running_events2 <- all_running_events2 %>%
+    mutate(date = mdy(date)) %>%
+    mutate(year_date = year(date))
+```
 ### Select Input
 ```{r, fig.height=3}
-inputPanel(selectInput("event", label = "Select Event",
-                       choices = c("High Jump","Pole Vault", "Long Jump", "Triple Jump","shot Put", "Discus", "Hammer", "Javelin", "Heptathlon"), selected = "All"))
+inputPanel(
+  selectInput(inputId = "categ2",
+              label = h3("Event"),
+              choices = c("4x100", "4x400"),
+              selected = "4x100"))
+
 ```
 
-### plot 2
+### The plot of the time of champions in 4x100 and 4x400
+```{r, echo = FALSE}
+testall_running_events2 <- all_running_events2 |>
+  pivot_wider(names_from = event,
+              values_from = meet)
+view(testall_running_events2)
+```
 
+```{r, echo=FALSE}
+renderPlot({
+  testall_running_events2 |>
+    filter(seed == 1, !is.na(.data[[input$categ2]])) |>
+    ggplot(aes(x = year_date, y = time)) +
+    geom_point() +
+    labs(x = "Year", y = "Times")
+})
+```
+
+
+### Select Input
+Now, in the following plots, we are measuring the performance of champions in events that measure their results in meters.
+```{r}
+all_field_events = read_rds("AllFieldEvents.csv")
+```
+```{r}
+all_field_events <- all_field_events %>%
+    mutate(date = mdy(date)) %>%
+    mutate(year_date = year(date))
+```
+
+```{r, echo = FALSE}
+testall_field_events <- all_field_events |>
+  pivot_wider(names_from = event,
+              values_from = meet)
+view(testall_field_events)
+```
+
+```{r, fig.height=2}
+inputPanel(
+  selectInput(inputId = "categ3",
+              label = h3("Event"),
+             choices = c("High Jump","Pole Vault", "Long Jump", "Triple Jump","Shot Put", "Discus", "Hammer", "Javelin"),
+              selected = "High Jump"))
+```
+### The plot for field events
+
+
+```{r, echo=FALSE}
+renderPlot({
+  testall_field_events |>
+    filter(seed == 1, !is.na(.data[[input$categ3]])) |>
+    ggplot(aes(x = year_date, y = mark)) +
+    geom_point() +
+    labs(x = "Year", y = "Meters")
+})
+```
+```{r}
+library(rvest)
+library(dplyr)
+library(tibble)
+
+# Function to read and process tables for the Decathlon from multiple URLs
+read_track_tibblesDecathlon <- function(urls) {
+    html_list <- list()
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        # Adjust the index based on the actual location of the Decathlon data
+        Decathlon <- html_table(TrackTables, header = TRUE, fill = TRUE)[[44]]  # Update index as necessary
+        colnames(Decathlon) <- paste0("Column_", 1:ncol(Decathlon))
+        
+        # Convert all columns to character to prevent data type mismatch
+        Decathlon[] <- lapply(Decathlon, as.character)
+        
+        html_list[[url]] <- as_tibble(Decathlon)
+    }
+    return(html_list)
+}
+
+# List of URLs to fetch data from (make sure they are the correct ones for Decathlon)
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List"
+)
+
+# Read and combine data
+track_data_tibblesDecathlon <- read_track_tibblesDecathlon(urls)
+combined_tableDecathlon <- bind_rows(track_data_tibblesDecathlon)
+
+# Optionally, rename columns based on your understanding of the data
+combined_tableDecathlon <- combined_tableDecathlon |> 
+  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, points = Column_5, meet = Column_6, date = Column_7)
+
+print(combined_tableDecathlon)
+
+```
+### The plot for Decathlon
+```{r}
+combined_tableDecathlon <- combined_tableDecathlon %>%
+    mutate(date = mdy(date)) %>%
+    mutate(year_date = year(date))
+```
+
+```{r, echo=FALSE}
+  combined_tableDecathlon |>
+    filter(seed == 1)|>
+    ggplot(aes(x = year_date, y = points)) +
+    geom_point() +
+    labs(x = "Year", y = "points")
+
+```
 
 # How does each class year perform in each college? {data-navmenu="Menu"}
 

@@ -16,7 +16,9 @@ library(httr)
 
 ```{r, echo = FALSE}
 all_running_events = read_rds("AllRunningEvents.csv")
+all_field_events = read_rds("AllFieldEvents.csv")
 ```
+
 
 ```{r, echo = FALSE}
 all_running_events <- all_running_events %>%
@@ -24,7 +26,7 @@ all_running_events <- all_running_events %>%
     mutate(year_date = year(date))
 ```
 
-How does each class year preform?
+How does each class year preform?(runing events)
 
 
 ```{r, include = FALSE}
@@ -33,6 +35,7 @@ avg_place <- all_running_events |>
   complete(year_date, class_year, fill = list(seed = NA)) |>
   group_by(class_year, year_date) |>
   summarize(avg_place = mean(seed, na.rm = TRUE))
+avg_place
 ```
 
 ```{r, include = FALSE}
@@ -92,3 +95,79 @@ renderPlot({
     theme_minimal()
 })
 ```
+
+How does each year perform in college(field events)
+```{r, echo = FALSE}
+all_field_events <- all_field_events %>%
+    mutate(date = mdy(date)) %>%
+    mutate(year_date = year(date))
+```
+
+```{r, include = FALSE}
+avg_place2 <- all_field_events |>
+  filter(!is.na(class_year) & class_year != "") |>
+  complete(year_date, class_year) |>
+  group_by(class_year, year_date) |>
+  summarize(avg_place = mean(seed, na.rm = TRUE))
+avg_place2
+```
+
+```{r, include = FALSE}
+ggplot(avg_place2, aes(x = class_year, y = avg_place)) +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  labs(title = "Average Place by Class Year",
+       x = "Class Year",
+       y = "Average Place") +
+  theme_minimal()
+```
+
+```{r, include = FALSE}
+class_count2 <- all_field_events |>
+  complete(year_date, class_year, fill = list(seed = NA)) |>
+  group_by(year_date, class_year) |>
+  summarize(total_participants = sum(n_distinct(name)))|>
+  slice(-1)
+```
+
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput(inputId = "categ",
+              label = h3("class_Year"),
+              choices = c("FR-1", "SO-2", "JR-3", "SR-4"),
+              selected = "FR-1"))
+```
+
+
+```{r, echo = FALSE}
+renderPlot({
+  avg_place2 |>
+    filter(class_year == input$categ) |>
+    ggplot(aes(x = year_date, y = avg_place)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+})
+```
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput(inputId = "classcount",
+              label = h3("class_Year"),
+              choices = c("FR-1", "SO-2", "JR-3", "SR-4"),
+              selected = "FR-1"))
+```
+
+
+```{r, echo = FALSE}
+renderPlot({
+  class_count2 |>
+    filter(class_year == input$classcount) |>
+    ggplot(aes(x = year_date, y = total_participants)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+})
+```
+
+

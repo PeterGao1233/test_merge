@@ -6,7 +6,7 @@ output: html_document
 runtime: shiny
 ---
   
-```{r}
+```{r, echo = FALSE}
 #| include: FALSE
 library(tidyverse)
 library(stringr)
@@ -14,433 +14,28 @@ library(rvest)
 library(httr)
 ```
 
-```{r, include = FALSE}
-read_track_tibbles100 <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-        One_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[1]]
-        colnames(One_hundred_meters) <- paste0("Column_", 1:ncol(One_hundred_meters)) 
-        html_list[[url]] <- as_tibble(One_hundred_meters)
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles100 <- read_track_tibbles100(urls)
-
-combined_table100 <- bind_rows(track_data_tibbles100)
-
-print(combined_table100)
-
-combined_table100$event <- "one_hundred"
-
-combined_table100 <- combined_table100 |>
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
+```{r, echo = FALSE}
+all_running_events = read_rds("AllRunningEvents.csv")
 ```
 
-200 Meters
-
-```{r, include = FALSE}
-read_track_tibbles200 <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-        Two_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[3]]
-        colnames(Two_hundred_meters) <- paste0("Column_", 1:ncol(Two_hundred_meters)) 
-        html_list[[url]] <- as_tibble(Two_hundred_meters)
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles200 <- read_track_tibbles200(urls)
-
-
-combined_table200 <- bind_rows(track_data_tibbles200)
-
-print(combined_table200)
-
-combined_table200$event <- "two_hundred"
-
-combined_table200 <- combined_table200 |>
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
-
-```
-
-400 meters
-```{r, include = FALSE}
-read_track_tibbles400 <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-        Four_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[5]]
-        colnames(Four_hundred_meters) <- paste0("Column_", 1:ncol(Four_hundred_meters)) 
-        html_list[[url]] <- as_tibble(Four_hundred_meters)
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles400 <- read_track_tibbles400(urls)
-
-
-combined_table400 <- bind_rows(track_data_tibbles400)
-
-print(combined_table400)
-
-combined_table400$wind <- "NA"
-combined_table400$event <- "four_hundred"
-
-combined_table400 <- combined_table400 |>
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
-
-```
-
-800 meters
-```{r, include = FALSE}
-read_track_tibbles800 <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-        Eight_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[7]]
-        colnames(Eight_hundred_meters) <- paste0("Column_", 1:ncol(Eight_hundred_meters)) 
-        html_list[[url]] <- as_tibble(Eight_hundred_meters)
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles800 <- read_track_tibbles800(urls)
-
-
-combined_table800 <- bind_rows(track_data_tibbles800)
-
-print(combined_table800)
-
-combined_table800$wind <- "NA"
-combined_table800$event <- "eight_hundred"
-
-combined_table800 <- combined_table800 |>
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
-
-```
-
-1500 meters
-
-
-```{r, include = FALSE}
-read_track_tibbles1500 <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-        if (length(html_table(TrackTables)) >= 9) {
-            Fifteen_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[9]]
-            if (ncol(Fifteen_hundred_meters) > 0) {
-                colnames(Fifteen_hundred_meters) <- paste0("Column_", 1:ncol(Fifteen_hundred_meters))
-                html_list[[url]] <- as_tibble(Fifteen_hundred_meters)
-            } else {
-                message("Table at index 9 has no columns at URL: ", url)
-            }
-        } else {
-            message("Table index 9 does not exist at URL: ", url)
-        }
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles1500 <- read_track_tibbles1500(urls)
-
-combined_table1500 <- bind_rows(track_data_tibbles1500)
-
-print(combined_table1500)
-
-combined_table1500$wind <- "NA"
-combined_table1500$event <- "fifteen_hundred"
-
-combined_table1500 <- combined_table1500 |>
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
-```
-
-5000 meters
-```{r, include = FALSE}
-read_track_tibbles5000 <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-       Fifty_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[11]]
-        colnames(Fifty_hundred_meters) <- paste0("Column_", 1:ncol(Fifty_hundred_meters)) 
-        html_list[[url]] <- as_tibble(Fifty_hundred_meters)
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles5000 <- read_track_tibbles5000(urls)
-
-
-combined_table5000 <- bind_rows(track_data_tibbles5000)
-
-print(combined_table5000)
-
-combined_table5000$wind <- "NA"
-combined_table5000$event <- "five_k"
-
-combined_table5000 <- combined_table5000 |>
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
-
-```
-
-
-10000 meters
-```{r, include = FALSE}
-read_track_tibbles10000 <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-       Ten_thousand_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[13]]
-        colnames(Ten_thousand_meters) <- paste0("Column_", 1:ncol(Ten_thousand_meters)) 
-        html_list[[url]] <- as_tibble(Ten_thousand_meters)
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles10000 <- read_track_tibbles10000(urls)
-
-
-combined_table10000 <- bind_rows(track_data_tibbles10000)
-
-print(combined_table10000)
-
-combined_table10000$wind <- "NA"
-combined_table10000$event <- "ten_k"
-
-combined_table10000 <- combined_table10000 |>
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
-```
-
-```{r, include = FALSE}
-all_running_events <- rbind(combined_table100, combined_table200, combined_table400, combined_table800, combined_table1500, combined_table5000, combined_table10000)
-```
-
-```{r}
+```{r, echo = FALSE}
 all_running_events <- all_running_events %>%
     mutate(date = mdy(date)) %>%
     mutate(year_date = year(date))
 ```
 
-
-110 Hurdles
-```{r, include = FALSE}
-read_track_tibbles110H <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-        one_ten_hurdles <- html_table(TrackTables, header = TRUE, fill = TRUE)[[16]]
-        colnames(one_ten_hurdles) <- paste0("Column_", 1:ncol(one_ten_hurdles)) 
-        html_list[[url]] <- as_tibble(one_ten_hurdles)
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles110H <- read_track_tibbles110H(urls)
-
-combined_table110H <- bind_rows(track_data_tibbles110H)
-
-combined_table110H$event <- "one_ten_hurdles"
-
-combined_table110H <- combined_table110H |> 
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
-
-print(combined_table110H)
-```
-
-
-400 Hurdles
-```{r, include = FALSE}
-read_track_tibbles400H <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-        four_hundred_hurdles <- html_table(TrackTables, header = TRUE, fill = TRUE)[[17]]
-        colnames(four_hundred_hurdles) <- paste0("Column_", 1:ncol(four_hundred_hurdles)) 
-        html_list[[url]] <- as_tibble(four_hundred_hurdles)
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles400H <- read_track_tibbles400H(urls)
-
-combined_table400H <- bind_rows(track_data_tibbles400H)
-
-combined_table400H$wind <- "NA"
-combined_table400H$event <- "four_hundred_hurdles"
-
-combined_table400H <- combined_table400H |> 
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
-
-print(combined_table400H)
-```
-
-
-3000 SteepLechase
-```{r, include = FALSE}
-read_track_tibbles3000s <- function(urls) {
-    html_list <- list() 
-    
-    for (url in urls) {
-        TrackTables <- read_html(url)
-        steeplechase <- html_table(TrackTables, header = TRUE, fill = TRUE)[[19]]
-        colnames(steeplechase) <- paste0("Column_", 1:ncol(steeplechase)) 
-        html_list[[url]] <- as_tibble(steeplechase)
-    }
-    return(html_list)
-}
-
-# Running the Code
-urls <- c(
-    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
-    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
-    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
-
-track_data_tibbles3000s <- read_track_tibbles3000s(urls)
-
-combined_table3000s <- bind_rows(track_data_tibbles3000s)
-
-combined_table3000s$wind <- "NA"
-combined_table3000s$event <- "steeplechase"
-
-combined_table3000s <- combined_table3000s |> 
-  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
-
-print(combined_table3000s)
-```
-
-
-```{r, include = FALSE}
-all_running_events <- rbind(combined_table100, combined_table200, combined_table400, combined_table800, combined_table1500, combined_table5000, combined_table10000, combined_table110H, combined_table400H, combined_table3000s)
-```
-
 How does each class year preform?
 
 
-```{r}
-# Assuming you have a dataset named combined_table100 with columns 'class_year' and 'place'
-
-# Group data by class year and calculate the mean place
+```{r, include = FALSE}
 avg_place <- all_running_events |>
-  group_by(class_year) |>
-  summarize(avg_place = mean(seed)) |>
-  slice(-1)
-# Create a bar plot
+  filter(!is.na(class_year) & class_year != "") |>
+  complete(year_date, class_year, fill = list(seed = NA)) |>
+  group_by(class_year, year_date) |>
+  summarize(avg_place = mean(seed, na.rm = TRUE))
+```
+
+```{r, include = FALSE}
 ggplot(avg_place, aes(x = class_year, y = avg_place)) +
   geom_bar(stat = "identity", fill = "skyblue", color = "black") +
   labs(title = "Average Place by Class Year",
@@ -449,76 +44,51 @@ ggplot(avg_place, aes(x = class_year, y = avg_place)) +
   theme_minimal()
 ```
 
-```{r}
-library(dplyr)
-library(ggplot2)
-
-# Assuming you have a dataset named combined_table100 with columns 'class_year', 'place', and 'event'
-
-# Group data by class year and event, count the number of participants who scored
+```{r, include = FALSE}
 class_count <- all_running_events |>
-  group_by(class_year) |>
+  complete(year_date, class_year, fill = list(seed = NA)) |>
+  group_by(year_date, class_year) |>
   summarize(total_participants = sum(n_distinct(name)))|>
   slice(-1)
-
-# Create a bar plot
-ggplot(class_count, aes(x = class_year, y = total_participants, fill = factor(class_year))) +
-  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
-  labs(title = "Total Participants by Class Year",
-       x = "Class Year",
-       y = "Total Participants",
-       fill = "Class Year",
-       text = "Total Participants") +
-  theme_minimal()
 ```
 
 
 ```{r, echo = FALSE}
 inputPanel(
   selectInput(inputId = "categ",
-              label = h3("Class_Year"),
+              label = h3("class_Year"),
               choices = c("FR-1", "SO-2", "JR-3", "SR-4"),
-              selected = "FR-1")
-)
+              selected = "FR-1"))
 ```
 
-```{r}
-avg_place <- all_running_events |>
-  group_by(class_year) |>
-  summarize(avg_place = mean(seed)) |>
-  slice(-1)
 
+```{r, echo = FALSE}
 renderPlot({
-  ggplot(avg_place, aes(x = .data[[input$categ]])) +
-    geom_bar(stat = "identity", fill = "skyblue", color = "black") +
-    labs(title = "Average Place by Class Year",
-         x = "Class Year",
-         y = "Average Place") +
+  avg_place |>
+    filter(class_year == input$categ) |>
+    ggplot(aes(x = year_date, y = avg_place)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
     theme_minimal()
 })
 ```
 
-```{r}
+```{r, echo = FALSE}
 inputPanel(
-  selectInput(inputId = "categ",
-              label = h3("Class_Year"),
+  selectInput(inputId = "classcount",
+              label = h3("class_Year"),
               choices = c("FR-1", "SO-2", "JR-3", "SR-4"),
-              selected = "FR-1")
-)
-
-avg_place <- all_running_events |>
-  group_by(class_year) |>
-  summarize(avg_place = mean(seed)) |>
-  slice(-1)
-
-renderPlot({
-  ggplot(avg_place, aes(x = .data[[input$categ]])) +
-    geom_bar(stat = "identity", fill = "skyblue", color = "black") +
-    labs(title = "Average Place by Class Year",
-         x = "Class Year",
-         y = "Average Place") +
-    theme_minimal()
-})
-
+              selected = "FR-1"))
 ```
 
+
+```{r, echo = FALSE}
+renderPlot({
+  class_count |>
+    filter(class_year == input$classcount) |>
+    ggplot(aes(x = year_date, y = total_participants)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+})
+```

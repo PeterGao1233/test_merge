@@ -78,35 +78,61 @@ Which schools are the best at each event?
 
 In this question, we will consider the number of athletes from each school in the top 30 in the 100-meter event to determine which school is stronger. That is, if a school has the most athletes in the top thirty, then that school is best at the event.
 
-
-
-### Select Input
-```{r, fig.height=4}
-inputPanel(selectInput("event", label = "Select Event",
-                       choices = c("100","200", "400", "800", "1500","5000", "10000", "100 Hurdles","400 Hurdles", "3000 SteepLechase", "4*100 Relay","4*400 Relay","High Jump","Pole Vault", "Long Jump", "Triple Jump","shot Put", "Discus", "Hammer", "Javelin", "Heptathlon"), selected = "All"))
-          
-inputPanel(selectInput("bars", label = "Select Years",
-                       choices = c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024), selected = 5))
-
+``````{r, echo = FALSE}
+all_running_events = read_rds("AllRunningEvents.csv")
 ```
 
 
+```{r, echo = FALSE}
+all_running_events <- all_running_events %>%
+    mutate(date = mdy(date)) %>%
+    mutate(year_date = year(date))
+```
 
+
+### Select Input
+```{r, echo = FALSE}
+inputPanel(
+  selectInput(inputId = "categ",
+              label = h3("Event"),
+              choices = c("one_hundred", "two_hundred", "four_hundred", "eight_hundred", "fifteen_hundred", "five_k", "ten_k", "one_ten_hurdles", "four_hundred_hurdles", "steeplechase"),
+              selected = "one_hundred"),
+  
+  selectInput(inputId = "categ1",
+              label = h3("Year"),
+              choices = c("2024", "2023", "2022", "2021", "2019", "2018", "2017", "2015"),
+              selected = "2024")
+)
+```
+
+```{r, echo = FALSE}
+testall_running_events <- all_running_events |>
+  pivot_wider(names_from = event,
+              values_from = school)
+view(testall_running_events)
+```
 
 
 Column 
 -------------------------
 ### Select Input
-```{r, fig.height=4}
-inputPanel(selectInput("event", label = "Select Event",
-                       choices = c("4*100 Relay","4*400 Relay"), selected = "All"))
-          
-inputPanel(selectInput("bars", label = "Select Years",
-                       choices = c(2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024), selected = 5))
+
+```{r, echo = FALSE}
+renderPlot({
+  filtered_data <- testall_running_events |>
+    filter(!is.na(.data[[input$categ]]), year(date) == as.numeric(input$categ1))
+
+  ggplot(filtered_data, aes(x = .data[[input$categ]])) +
+    geom_bar(fill = "lightblue", color = "black", alpha = 0.7) +
+    labs(title = "Distribution of Events",
+         x = "Event",
+         y = "Frequency") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    scale_fill_manual(values = c("lightblue", "green"))  
+})
 
 ```
-
-
 
 
 # Has the MIAC improved as the years progressed? {data-navmenu="Menu"}
@@ -125,9 +151,6 @@ inputPanel(selectInput("event", label = "Select Event",
 
 ### plot 1
 
-
-
-
 Column 
 -------------------------
 Now, in the following plots, we are measuring the performance of champions in events that measure their results in meters.
@@ -145,31 +168,150 @@ inputPanel(selectInput("event", label = "Select Event",
 
 In this question, we will filter each class year, and see how they perform in different events in different years. To measure how they perform, we will examine the average seed rank for each events and in each college. 
 
-
-## Column
-
-```{r}
-
+```{r, echo = FALSE}
+#| include: FALSE
+library(tidyverse)
+library(stringr)
+library(rvest)
+library(httr)
 ```
 
-### section 1
-
-```{r, fig.height = 3}
-
+```{r, echo = FALSE}
+all_running_events = read_rds("AllRunningEvents.csv")
+all_field_events = read_rds("AllFieldEvents.csv")
 ```
 
-### section 2
-
-```{r, fig.height=4}
-
+```{r, echo = FALSE}
+all_running_events <- all_running_events %>%
+    mutate(date = mdy(date)) %>%
+    mutate(year_date = year(date))
 ```
 
-## Column
+How does each class year preform?(runing events)
 
-### section 2
 
-```{r, fig.height = 3}
+```{r, include = FALSE}
+avg_place <- all_running_events |>
+  filter(!is.na(class_year) & class_year != "") |>
+  complete(year_date, class_year, fill = list(seed = NA)) |>
+  group_by(class_year, year_date) |>
+  summarize(avg_place = mean(seed, na.rm = TRUE))
+avg_place
+```
 
+```{r, echo = FALSE}
+inputPanel(
+  selectInput(inputId = "avgplace",
+              label = h3("class_Year"),
+              choices = c("FR-1", "SO-2", "JR-3", "SR-4"),
+              selected = "FR-1"))
+```
+
+
+```{r, echo = FALSE}
+renderPlot({
+  avg_place |>
+    filter(class_year == input$avgplace) |>
+    ggplot(aes(x = year_date, y = avg_place)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+})
+```
+
+
+```{r, include = FALSE}
+class_count <- all_running_events |>
+  complete(year_date, class_year, fill = list(seed = NA)) |>
+  group_by(year_date, class_year) |>
+  summarize(total_participants = sum(n_distinct(name)))|>
+  slice(-1)
+```
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput(inputId = "classcount",
+              label = h3("class_Year"),
+              choices = c("FR-1", "SO-2", "JR-3", "SR-4"),
+              selected = "FR-1"))
+```
+
+
+```{r, echo = FALSE}
+renderPlot({
+  class_count |>
+    filter(class_year == input$classcount) |>
+    ggplot(aes(x = year_date, y = total_participants)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+})
+```
+
+How does each year perform in college(field events)
+```{r, include = FALSE}
+all_field_events <- all_field_events |>
+    mutate(date = mdy(date)) |>
+    mutate(year_date = year(date))
+```
+
+```{r, include = FALSE}
+avg_place2 <- all_field_events %>%
+  filter(!is.na(class_year) & class_year != "") %>%
+  complete(year_date, class_year, fill = list(seed = NA)) %>%
+  mutate(seed = as.numeric(seed)) %>%  
+  group_by(class_year, year_date) %>%
+  summarize(avg_place = mean(seed, na.rm = TRUE), .groups = "drop")
+avg_place2
+```
+
+
+```{r, include = FALSE}
+class_count2 <- all_field_events |>
+  complete(year_date, class_year, fill = list(seed = NA)) |>
+  group_by(year_date, class_year) |>
+  summarize(total_participants = sum(n_distinct(name)))|>
+  slice(-1)
+```
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput(inputId = "avgplace2",
+              label = h3("class_Year"),
+              choices = c("FR-1", "SO-2", "JR-3", "SR-4"),
+              selected = "FR-1"))
+```
+
+
+```{r, echo = FALSE}
+renderPlot({
+  avg_place2 |>
+    filter(class_year == input$avgplace2) |>
+    ggplot(aes(x = year_date, y = avg_place)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+})
+```
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput(inputId = "classcount2",
+              label = h3("class_Year"),
+              choices = c("FR-1", "SO-2", "JR-3", "SR-4"),
+              selected = "FR-1"))
+```
+
+
+```{r, echo = FALSE}
+renderPlot({
+  class_count2 |>
+    filter(class_year == input$classcount2) |>
+    ggplot(aes(x = year_date, y = total_participants)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+})
 ```
 
 ### Commentary
@@ -177,7 +319,6 @@ In this question, we will filter each class year, and see how they perform in di
 ```{r}
 p("." )
 ```
-
 # Does athletes with the top marks finish as expected? {data-navmenu="Menu"}
 
 ## Column

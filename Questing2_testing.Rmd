@@ -1108,13 +1108,13 @@ renderPlot({
 ```
 ### The plot for Decathlon
 ```{r}
-combined_tableDecathlon <- combined_tableDecathlon %>%
+combined_tableDecathlon<- combined_tableDecathlon %>%
     mutate(date = mdy(date)) %>%
     mutate(year_date = year(date))
 ```
 
 ```{r, echo=FALSE}
-  combined_tableDecathlon |>
+combined_tableDecathlon |>
     filter(seed == 1)|>
     ggplot(aes(x = year_date, y = points)) +
     geom_point() +

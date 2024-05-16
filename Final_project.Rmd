@@ -172,7 +172,7 @@ renderPlot({
 ```
 
 ```{r}
-all_relays = read_rds("AllRelays")
+all_relays = read_rds("AllRelays.CSV")
 ```
 
 ```{r, echo = FALSE}
@@ -248,21 +248,21 @@ renderPlot({
 ```
 
 ```{r}
-tags$h1("Decathlon")
+tags$h1("Decathalon")
 ```
 
 ```{r}
-decathalon = read_rds("Decathalon")
+combined_tableDecathlon = read_rds("Decathalon.CSV")
 ```
 
 ```{r}
-decathalon <- decathalon %>%
-    mutate(date = ymd(date)) %>%
+combined_tableDecathlon<- combined_tableDecathlon %>%
+    mutate(date = mdy(date)) %>%
     mutate(year_date = year(date))
 ```
 
 ```{r, echo=FALSE}
-decathalon |>
+combined_tableDecathlon |>
   filter(seed == 1)|>
   ggplot(aes(x = year_date, y = points)) +
   geom_point() +

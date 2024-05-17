@@ -1054,3 +1054,224 @@ write_rds(combined_tableDecathlon, "Decathalon.CSV")
 ```{r}
 combined_tableDecathlon = read_rds("Decathalon.CSV")
 ```
+
+
+```{r, include = FALSE}
+read_track_tibbles100 <- function(urls) {
+    html_list <- list() 
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        One_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[1]]
+        colnames(One_hundred_meters) <- paste0("Column_", 1:ncol(One_hundred_meters)) 
+        html_list[[url]] <- as_tibble(One_hundred_meters)
+    }
+    return(html_list)
+}
+
+# Running the Code
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
+
+track_data_tibbles100 <- read_track_tibbles100(urls)
+
+combined_table100 <- bind_rows(track_data_tibbles100)
+
+print(combined_table100)
+
+combined_table100$event <- "one_hundred"
+```
+```{r, include = FALSE}
+combined_table100 <- combined_table100 |>
+  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
+```
+
+200 Meters
+
+```{r, include = FALSE}
+read_track_tibbles200 <- function(urls) {
+    html_list <- list() 
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        Two_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[3]]
+        colnames(Two_hundred_meters) <- paste0("Column_", 1:ncol(Two_hundred_meters)) 
+        html_list[[url]] <- as_tibble(Two_hundred_meters)
+    }
+    return(html_list)
+}
+
+# Running the Code
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
+
+track_data_tibbles200 <- read_track_tibbles200(urls)
+
+
+combined_table200 <- bind_rows(track_data_tibbles200)
+
+print(combined_table200)
+
+combined_table200$event <- "two_hundred"
+```
+
+```{r, include = FALSE}
+combined_table200 <- combined_table200 |>
+  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
+
+```
+
+400 meters
+```{r, include = FALSE}
+read_track_tibbles400 <- function(urls) {
+    html_list <- list() 
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        Four_hundred_meters <- html_table(TrackTables, header = TRUE, fill = TRUE)[[5]]
+        colnames(Four_hundred_meters) <- paste0("Column_", 1:ncol(Four_hundred_meters)) 
+        html_list[[url]] <- as_tibble(Four_hundred_meters)
+    }
+    return(html_list)
+}
+
+# Running the Code
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
+
+track_data_tibbles400 <- read_track_tibbles400(urls)
+
+
+combined_table400 <- bind_rows(track_data_tibbles400)
+
+print(combined_table400)
+
+combined_table400$wind <- "NA"
+combined_table400$event <- "four_hundred"
+```
+
+110 Hurdles
+```{r, include = FALSE}
+read_track_tibbles110H <- function(urls) {
+    html_list <- list() 
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        one_ten_hurdles <- html_table(TrackTables, header = TRUE, fill = TRUE)[[16]]
+        colnames(one_ten_hurdles) <- paste0("Column_", 1:ncol(one_ten_hurdles)) 
+        html_list[[url]] <- as_tibble(one_ten_hurdles)
+    }
+    return(html_list)
+}
+
+# Running the Code
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List")
+
+track_data_tibbles110H <- read_track_tibbles110H(urls)
+
+combined_table110H <- bind_rows(track_data_tibbles110H)
+
+combined_table110H$event <- "one_ten_hurdles"
+
+combined_table110H <- combined_table110H |> 
+  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7, wind = Column_8)
+
+print(combined_table110H)
+```
+
+```{r, include = FALSE}
+all_running_wind_events <- rbind(combined_table100, combined_table200, combined_table110H)
+```
+
+```{r}
+write_rds(all_running_wind_events, "AllRunningWindEvents.csv")
+```
+
+```{r}
+all_running_wind_events = read_rds("AllRunningWindEvents.csv")
+```
+
+Triple Jump
+```{r}
+
+
+# Function to read and process tables for the Triple Jump from multiple URLs
+read_track_tibblesTripleJump <- function(urls) {
+    html_list <- list()
+    
+    for (url in urls) {
+        TrackTables <- read_html(url)
+        # Adjust the index based on the actual location of the Triple Jump data
+        TripleJump <- html_table(TrackTables, header = TRUE, fill = TRUE)[[33]]  # Ensure this index is correct
+        colnames(TripleJump) <- paste0("Column_", 1:ncol(TripleJump))
+        
+        # Convert all columns to character to prevent data type mismatch
+        TripleJump[] <- lapply(TripleJump, as.character)
+        
+        html_list[[url]] <- as_tibble(TripleJump)
+    }
+    return(html_list)
+}
+
+# List of URLs to fetch data from (ensure these are the correct ones for Triple Jump)
+urls <- c(
+    "https://www.tfrrs.org/lists/4723/MIAC_Outdoor_Performance_List",
+    "https://tf.tfrrs.org/lists/4254/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3819/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/3354/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2590/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/2217/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1978/MIAC_Outdoor_Performance_List",
+    "https://www.tfrrs.org/lists/1562/MIAC_Outdoor_Performance_List"
+)
+
+# Read and combine data
+track_data_tibblesTripleJump <- read_track_tibblesTripleJump(urls)
+combined_tableTripleJump <- bind_rows(track_data_tibblesTripleJump)
+
+# Optionally, rename columns based on your understanding of the data
+combined_tableTripleJump <- combined_tableTripleJump |> 
+  rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, mark = Column_5, conv = Column_6, meet = Column_7, date = Column_8, wind = Column_9)
+
+print(combined_tableTripleJump)
+
+combined_tableTripleJump$event <- "Triple Jump"
+
+
+```
+```{r}
+write_rds(combined_tableTripleJump, "AllfieldWindEvents.csv")
+```
+
+```{r}
+combined_tableTripleJump = read_rds("AllfieldWindEvents.csv")
+```

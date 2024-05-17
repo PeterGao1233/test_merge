@@ -161,11 +161,11 @@ inputPanel(
 
 ```{r, echo=FALSE}
 renderPlot({
-  testall_running_events |>
-    filter(seed == 1, !is.na(.data[[input$champs]])) |>
+  testall_running_events %>%
+    filter(seed == 1, !is.na(.data[[input$champs]])) %>%
     ggplot(aes(x = year_date, y = time)) +
     geom_point() +
-    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1)+
+    geom_smooth(method = "lm", se = FALSE, color = 'green', alpha = .1) +
     labs(x = "Year", y = "Times", title = "Progression of MIAC Running Events") +
     theme_minimal()
 })
@@ -269,6 +269,9 @@ combined_tableDecathlon |>
   labs(x = "Year", y = "points", title = "MIAC Decathlon") +
   theme_minimal()
 ```
+
+Commentary:
+
 
 # How does each class year perform in each college? {data-navmenu="Menu"}
 
@@ -425,47 +428,77 @@ renderPlot({
 ```{r}
 p("." )
 ```
-# Does athletes with the top marks finish as expected? {data-navmenu="Menu"}
-
-## Column
+# How wind influence athletes performance? {data-navmenu="Menu"}
 
 ```{r}
-
-```
-
-### section1
-
-```{r}
-
-```
-
-### section2
-
-```{r}
-
-```
-
-## Column
-
-### Commentary
-
-```{r}
-p("")
-```
-
-### section 3
-
-```{r}
-
-```
-
-### section4
-
-```{r}
-
+all_running_wind_events = read_rds("AllRunningWindEvents.csv")
+combined_tableTripleJump = read_rds("AllfieldWindEvents.csv")
 ```
 
 
-## Column
+```{r, include = FALSE}
+all_running_wind_events <- all_running_wind_events |>
+    mutate(date = mdy(date)) |>
+    mutate(year_date = year(date))
+```
+
+```{r, echo = FALSE}
+all_running_wind_events <- all_running_wind_events |>
+  pivot_wider(names_from = school,
+              values_from = meet)
+view(all_running_wind_events)
+```
+
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput(inputId = "categ",
+              label = h3("Event"),
+              choices = c("one_hundred", "two_hundred", "one_ten_hurdles"),
+              selected = "one_hundred"),
+  
+  selectInput(inputId = "categ1",
+              label = h3("Year"),
+              choices = c("2024", "2023", "2022", "2021", "2019", "2018", "2017", "2015"),
+              selected = "2024")
+)
+```
+
+
+```{r, echo = FALSE}
+renderPlot({
+  all_running_wind_events |>
+    ggplot(aes(x = wind, y = time)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+})
+```
+
+Wind for field events
+```{r, include = FALSE}
+combined_tableTripleJump<- combined_tableTripleJump |>
+    mutate(date = mdy(date)) |>
+    mutate(year_date = year(date))
+```
+
+```{r, echo = FALSE}
+
+inputPanel(
+  selectInput(inputId = "categ1",
+              label = h3("Year"),
+              choices = c("2024", "2023", "2022", "2021", "2019", "2018", "2017", "2015"),
+              selected = "2024")
+)
+```
+
+```{r, echo=FALSE}
+combined_tableTripleJump |>
+    ggplot(aes(x = wind, y = mark)) +
+    geom_point() +
+    labs(x = "wind", y = "mark")
+
+```
+
 
 # Discussion {data-navmenu="Menu"}

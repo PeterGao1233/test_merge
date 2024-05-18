@@ -298,16 +298,6 @@ combined_table10000 <- combined_table10000 |>
   rename(seed = Column_1, name = Column_2, class_year = Column_3, school = Column_4, time = Column_5, meet = Column_6, date = Column_7)
 ```
 
-```{r, include = FALSE}
-all_running_events <- rbind(combined_table100, combined_table200, combined_table400, combined_table800, combined_table1500, combined_table5000, combined_table10000)
-```
-
-```{r}
-all_running_events <- all_running_events %>%
-    mutate(date = mdy(date)) %>%
-    mutate(year_date = year(date))
-```
-
 
 110 Hurdles
 ```{r, include = FALSE}
@@ -429,18 +419,37 @@ print(combined_table3000s)
 all_running_events <- rbind(combined_table100, combined_table200, combined_table400, combined_table800, combined_table1500, combined_table5000, combined_table10000, combined_table110H, combined_table400H, combined_table3000s)
 ```
 
+```{r}
+all_running_events <- all_running_events %>%
+    mutate(date = mdy(date)) %>%
+    mutate(year_date = year(date))
+```
+
 How does each class year preform?
+
+```{r}
+filtered_data <- all_running_events |>
+  filter(year_date >= 2015 & year_date <= 2024)
+
+avg_place <- filtered_data |>
+  group_by(year_date) |>
+  summarize(avg_place = mean(seed))
+
+avg_class_year <- filtered_data %>%
+  group_by(year = year(date)) %>%
+  summarize(avg_class_year = mean(as.numeric(gsub("\\D", "", class_year))))
+
+
+avg_place <- avg_place[-1, ]
+
+```
 
 
 ```{r}
 # Assuming you have a dataset named combined_table100 with columns 'class_year' and 'place'
 
-# Group data by class year and calculate the mean place
-avg_place <- all_running_events |>
-  group_by(class_year) |>
-  summarize(avg_place = mean(seed)) |>
-  slice(-1)
-# Create a bar plot
+# Group data by class year and calculate the mean pl
+
 ggplot(avg_place, aes(x = class_year, y = avg_place)) +
   geom_bar(stat = "identity", fill = "skyblue", color = "black") +
   labs(title = "Average Place by Class Year",

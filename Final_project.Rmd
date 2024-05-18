@@ -134,6 +134,14 @@ renderPlot({
 
 ```
 
+### Commentary
+
+```{r}
+p("The plot above shows how many athletes from each school in the top 30 athletes in a event. If a school has the most athltes in the top 30s, then that school perform the best in that event. For example, in 2024, there are around 7 athletes in the top 30s from Bethel, then Bethel performs the best in 100 meters." )
+```
+
+
+
 
 # Has the MIAC improved as the years progressed? {data-navmenu="Menu"}
 
@@ -165,14 +173,14 @@ renderPlot({
     filter(seed == 1, !is.na(.data[[input$champs]])) |>
     ggplot(aes(x = year_date, y = time)) +
     geom_point() +
-    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1)+
-    labs(x = "Year", y = "Times", title = "Progression of MIAC Running Events") +
+    labs(x = "Year", y = "Times", title = "Progression of MIAC Relays") +
     theme_minimal()
 })
+
 ```
 
 ```{r}
-all_relays = read_rds("AllRelays")
+all_relays = read_rds("AllRelays.CSV")
 ```
 
 ```{r, echo = FALSE}
@@ -248,21 +256,21 @@ renderPlot({
 ```
 
 ```{r}
-tags$h1("Decathlon")
+tags$h1("Decathalon")
 ```
 
 ```{r}
-decathalon = read_rds("Decathalon")
+combined_tableDecathlon = read_rds("Decathalon.CSV")
 ```
 
 ```{r}
-decathalon <- decathalon %>%
-    mutate(date = ymd(date)) %>%
+combined_tableDecathlon<- combined_tableDecathlon %>%
+    mutate(date = mdy(date)) %>%
     mutate(year_date = year(date))
 ```
 
 ```{r, echo=FALSE}
-decathalon |>
+combined_tableDecathlon |>
   filter(seed == 1)|>
   ggplot(aes(x = year_date, y = points)) +
   geom_point() +
@@ -270,9 +278,12 @@ decathalon |>
   theme_minimal()
 ```
 
+Comments: 
+
+
 # How does each class year perform in each college? {data-navmenu="Menu"}
 
-In this question, we will filter each class year, and see how they perform in different events in different years. To measure how they perform, we will examine the average seed rank for each events and in each college. 
+In this question, we will filter each class year, and see how they perform in different events in different years. To measure how they perform, we will examine the average seed rank for each events. 
 
 ```{r, echo = FALSE}
 #| include: FALSE
@@ -423,49 +434,80 @@ renderPlot({
 ### Commentary
 
 ```{r}
-p("." )
+p("In the plot above, we use the average place for each events to see how has they improved. So, in the running events, we can see that there is a trend line that shows the trend of the average places of the four class_year. For example, if the tredn line is upwarding, so the athletes of this class year is improved throughtout the years " )
 ```
-# Does athletes with the top marks finish as expected? {data-navmenu="Menu"}
-
-## Column
+# How wind influence athletes performance? {data-navmenu="Menu"}
 
 ```{r}
-
+all_running_wind_events = read_rds("AllRunningWindEvents.csv")
+combined_tableTripleJump = read_rds("AllfieldWindEvents.csv")
 ```
 
-### section1
 
-```{r}
-
+```{r, include = FALSE}
+all_running_wind_events <- all_running_wind_events |>
+    mutate(date = mdy(date)) |>
+    mutate(year_date = year(date))
 ```
 
-### section2
 
-```{r}
 
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput(inputId = "categ4",
+              label = h3("Event"),
+              choices = c("one_hundred", "two_hundred", "one_ten_hurdles"),
+              selected = "one_hundred"),
+  
+  selectInput(inputId = "categ5",
+              label = h3("Year"),
+              choices = c("2024", "2023", "2022", "2021", "2019", "2018", "2017", "2015"),
+              selected = "2024")
+)
 ```
 
-## Column
+```{r, echo = FALSE}
+renderPlot({
+  all_running_wind_events |>
+    filter(year_date == input$categ5, event == input$categ4) |>
+    ggplot(aes(x = wind, y = time)) +
+    geom_point(color = "skyblue") +
+    geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+})
+```
 
+Wind for field events
+```{r, include = FALSE}
+combined_tableTripleJump<- combined_tableTripleJump |>
+    mutate(date = mdy(date)) |>
+    mutate(year_date = year(date))
+```
+
+```{r, echo = FALSE}
+
+inputPanel(
+  selectInput(inputId = "categ6",
+              label = h3("Year"),
+              choices = c("2024", "2023", "2022", "2021", "2019", "2018", "2017", "2015"),
+              selected = "2024")
+)
+```
+
+```{r, echo=FALSE}
+renderPlot({
+combined_tableTripleJump |>
+   filter(year_date == input$categ6) |> 
+   ggplot(aes(x = wind, y = mark)) +
+   geom_point() +
+   labs(x = "wind", y = "mark")
+})
+```
 ### Commentary
 
 ```{r}
-p("")
+p("It seems like the wind does not influence the performance of athletes " )
 ```
-
-### section 3
-
-```{r}
-
-```
-
-### section4
-
-```{r}
-
-```
-
-
-## Column
 
 # Discussion {data-navmenu="Menu"}

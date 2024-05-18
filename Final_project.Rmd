@@ -510,3 +510,12 @@ p("In sprinting events, workers are tasked with measuring the wind speed. If the
  " )
 ```
 
+# Discussion {data-navmenu="Menu"}
+
+Discussion:
+This analysis of the MIAC running performances has given sight into the competition of Minnesota running and a sample of the trend across all division three schools and conferences. Many factors come into play with all of these plots but we will include some of the notable findings in this area.
+
+The progression of the freshman and sophomore classes:
+As noted before 
+
+

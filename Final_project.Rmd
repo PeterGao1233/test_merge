@@ -512,10 +512,18 @@ p("In sprinting events, workers are tasked with measuring the wind speed. If the
 
 # Discussion {data-navmenu="Menu"}
 
-Discussion:
-This analysis of the MIAC running performances has given sight into the competition of Minnesota running and a sample of the trend across all division three schools and conferences. Many factors come into play with all of these plots but we will include some of the notable findings in this area.
+This analysis of MIAC running performances provides insight into the competition among Minnesota runners and offers a glimpse of the trend across all Division III schools and conferences. Several factors contribute to the observations outlined in this analysis.
 
-The progression of the freshman and sophomore classes:
-As noted before 
+Since 2015, there has been a noticeable improvement in the performance of freshman and sophomore athletes. This improvement can be attributed to various factors such as advancements in technology related to shoes and uniforms, as well as evolving recruiting strategies employed by coaches. It is important to highlight that despite these advancements, the top-tier performance in Division III running has remained relatively consistent. This is evident in the consistency of national championship winning times and distances, as well as the average performance level of All-Americans.
 
+The emergence of this new wave of talented young runners in Division III presents an intriguing prospect for the future of the sport. It will be fascinating to observe the trajectory of these athletes and how their performances shape the landscape of Division III running in the coming years.
 
+Earlier in the project, we emphasized the significance of wind conditions in track events, as strong tailwinds can unfairly boost times, leading to disqualification. This point merits repeating, as in 2024, a historic moment occurred in Division III track and field history: the breaking of the ten-second barrier in the 100-meter dash by Sam Blaskowski of the University of Wisconsin La Crosse. Achieving this milestone is rare even among professional athletes, yet it was accomplished by an unpaid student athlete without a scholarship.
+
+Furthermore, it's noteworthy that Blaskowski competed against Noah Lyes, the gold medalist in the US Olympic trials held in February 2024. This juxtaposition highlights the extraordinary talent present in Division III running, where remarkable feats like these have become increasingly common in the post-COVID era. This achievement underscores the remarkable capabilities of Division III athletes and showcases the level of talent and dedication within this competitive realm of track and field.
+
+We are immensely proud of the outcome of this project. If anyone is interested in contributing to or expanding upon our work, please feel free to reach out to the creators at nemece1@stolaf.edu and gao7@stolaf.edu. 
+
+We extend our sincere gratitude to Professor Paul Roback for imparting us with the necessary skills and knowledge to undertake this project. His guidance and support have been invaluable in enabling us to produce this work and for granting us the opportunity to share our findings.
+
+Thank you once again to Professor Roback and to all those who have supported us throughout this endeavor.

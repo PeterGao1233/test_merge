@@ -137,7 +137,8 @@ renderPlot({
 ### Commentary
 
 ```{r}
-p("The plot above shows how many athletes from each school in the top 30 athletes in a event. If a school has the most athltes in the top 30s, then that school perform the best in that event. For example, in 2024, there are around 7 athletes in the top 30s from Bethel, then Bethel performs the best in 100 meters." )
+p("St. Olaf has consistently been the dominant distance running school in the MIAC. The Oles consistently field over 5 runners each year for the steeplechase, 5k, and 10k. There isn't a dominant school for the 1500 or 800 meters; this makes sense since schools with both strong distance runners and sprinters will typically have a solid group who can excel across various distances. While St. John's and St. Thomas both have a respectable number of sprinters, Bethel remains the most dominant in sprinting events. They lead almost every year in the 200, 400, 110 hurdles, and 400 hurdles.
+" )
 ```
 
 
@@ -278,7 +279,11 @@ combined_tableDecathlon |>
   theme_minimal()
 ```
 
-Comments: 
+### Commentary
+
+```{r}
+p("The progression of the MIAC is different for every event, which is to be expected. There are some years where the points seem like outliers, most of the time this is due to an all american qualifier. An “All American” is an athlete who is ranked in the top 22 of the entire country in his event. Some notable all americans are the Bethel Royals 2024 4x4 relay where they are ranked #1 in the county. In 2021 St. Olaf's Steve Peper was an all American in the Decathlon. There is no clear trend for sprints, distance, or field events as a whole.  " )
+```
 
 
 # How does each class year perform in each college? {data-navmenu="Menu"}
@@ -434,8 +439,9 @@ renderPlot({
 ### Commentary
 
 ```{r}
-p("In the plot above, we use the average place for each events to see how has they improved. So, in the running events, we can see that there is a trend line that shows the trend of the average places of the four class_year. For example, if the tredn line is upwarding, so the athletes of this class year is improved throughtout the years " )
+p("Division III sports have undergone a transformation since 2020. What was once a platform for talented but not necessarily exceptional high school runners to enhance their skills has gradually diverged from the traditional essence of Division III running. Since 2015, the freshman and sophomore classes have exhibited notable improvement, not only in terms of increased qualification rates within the top 30 for each event group but also in achieving higher placements within their respective categories. Conversely, the senior class has experienced a gradual decline, both in the quantity of participants ranked within the top 30 and their final placements.  " )
 ```
+
 # How wind influence athletes performance? {data-navmenu="Menu"}
 
 ```{r}
@@ -478,7 +484,7 @@ renderPlot({
 })
 ```
 
-Wind for field events
+Triple Jump
 ```{r, include = FALSE}
 combined_tableTripleJump<- combined_tableTripleJump |>
     mutate(date = mdy(date)) |>
@@ -501,13 +507,17 @@ combined_tableTripleJump |>
    filter(year_date == input$categ6) |> 
    ggplot(aes(x = wind, y = mark)) +
    geom_point() +
-   labs(x = "wind", y = "mark")
+   geom_smooth(method = "lm", se = FALSE, color = "green", alpha = .1) + 
+    theme_minimal()
+    
 })
 ```
 ### Commentary
 
 ```{r}
-p("It seems like the wind does not influence the performance of athletes " )
+p("In sprinting events, workers are tasked with measuring the wind speed. If the tailwind is excessively strong, the sprinter's time is disqualified from records or qualifying for conference or national meets. Conversely, if there is a headwind, athletes receive deductions of fractions of seconds from their time as compensation for the handicap. Negative values on the x-axis denote a headwind, while positive values indicate a tailwind. Analysis of data from 2021 to 2024 reveals that despite other variables such as athlete speed, there appears to be a positively sloping trend line, indicating that wind may not exert as significant an influence on runner speed as previously assumed.
+
+ " )
 ```
 
-# Discussion {data-navmenu="Menu"}
+
